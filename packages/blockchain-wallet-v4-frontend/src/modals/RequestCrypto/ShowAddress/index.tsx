@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { formatAddr, hasPrefix } from '@core/utils/bch'
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -128,7 +129,8 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ),
                 Loading: () => <SkeletonRectangle width='280px' height='24px' />,
                 NotAsked: () => <SkeletonRectangle width='280px' height='24px' />,
-                Success: (val) => val.address
+                Success: (val) =>
+                  hasPrefix(val.address) ? formatAddr(val.address, true) : val.address
               })}
             </Text>
           </AddressDisplay>
@@ -142,7 +144,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                   color='blue600'
                   onClick={() => this.props.requestActions.setAddressCopied()}
                   size='24px'
-                  textToCopy={val.address}
+                  textToCopy={hasPrefix(val.address) ? formatAddr(val.address, true) : val.address}
                 />
               )
             })}
