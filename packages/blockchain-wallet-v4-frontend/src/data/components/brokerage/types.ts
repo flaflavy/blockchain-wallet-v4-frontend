@@ -202,4 +202,5 @@ export type BrokerageState = {
   fiatCurrency: WalletFiatType | undefined
   isFlow: boolean
   redirectBackToStep: boolean
+  returnToDepMethods: boolean
 }

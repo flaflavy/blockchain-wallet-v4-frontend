@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { compose } from 'redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AddBankStepType, ModalName } from 'data/types'
+import { AddBankStepType, BankDWStepType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -24,6 +24,11 @@ class Banks extends PureComponent<Props> {
 
   handleClose = () => {
     this.setState({ show: false })
+    if (this.props.returnToDepMethods) {
+      this.props.brokerageActions.setDWStep({
+        dwStep: BankDWStepType.DEPOSIT_METHODS
+      })
+    }
     setTimeout(() => {
       this.props.close()
     }, duration)
@@ -58,10 +63,15 @@ class Banks extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  returnToDepMethods: selectors.components.brokerage.getReturnToDepMethods(state),
   step: selectors.components.brokerage.getAddBankStep(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
   ModalEnhancer(ModalName.ADD_BANK_YODLEE_MODAL, { transition: duration }),

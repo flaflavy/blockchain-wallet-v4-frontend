@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
-import { compose } from 'redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AddBankStepType, ModalName } from 'data/types'
+import { AddBankStepType, BankDWStepType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading, LoadingTextEnum } from '../../../components'
@@ -26,6 +26,12 @@ class Banks extends PureComponent<Props> {
 
   handleClose = () => {
     this.setState({ show: false })
+    // If from the deposit methods modal, then return there.
+    if (this.props.returnToDepMethods) {
+      this.props.brokerageActions.setDWStep({
+        dwStep: BankDWStepType.DEPOSIT_METHODS
+      })
+    }
     setTimeout(() => {
       this.props.close()
     }, duration)
@@ -74,10 +80,15 @@ class Banks extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  returnToDepMethods: selectors.components.brokerage.getReturnToDepMethods(state),
   step: selectors.components.brokerage.getAddBankStep(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
   ModalEnhancer(ModalName.ADD_BANK_YAPILY_MODAL, { transition: duration }),

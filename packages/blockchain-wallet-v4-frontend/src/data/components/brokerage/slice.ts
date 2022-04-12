@@ -32,7 +32,8 @@ const initialState: BrokerageState = {
   fastLink: Remote.NotAsked,
   fiatCurrency: undefined,
   isFlow: false,
-  redirectBackToStep: false
+  redirectBackToStep: false,
+  returnToDepMethods: false
 }
 
 const brokerageSlice = createSlice({
@@ -108,9 +109,11 @@ const brokerageSlice = createSlice({
         isFlow?: boolean
         modalType: ModalNameType
         origin: BrokerageModalOriginType
+        returnToDepMethods?: boolean
       }>
     ) => {
       state.isFlow = action.payload.isFlow || false
+      state.returnToDepMethods = action.payload.returnToDepMethods || false
     }
   }
 })

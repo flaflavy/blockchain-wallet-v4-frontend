@@ -28,6 +28,9 @@ export const getFiatCurrency = (state: RootState) => state.components.brokerage.
 
 export const getIsFlow = (state: RootState) => state.components.brokerage.isFlow
 
+export const getReturnToDepMethods = (state: RootState) =>
+  state.components.brokerage.returnToDepMethods
+
 export const getCrossBorderLimits = (state: RootState) =>
   state.components.brokerage.crossBorderLimits
 
