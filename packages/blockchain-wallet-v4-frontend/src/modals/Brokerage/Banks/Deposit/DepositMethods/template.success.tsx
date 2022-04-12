@@ -116,23 +116,25 @@ const Success = ({ addNew, brokerageActions, close, fiatCurrency, paymentMethods
                  clicking the "add new" button I want to show the add bank 
                  modal else I want to go to the enter amount screen
               */
-              if (addNew) {
-                brokerageActions.showModal({
-                  modalType:
-                    fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
-                  origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT
-                })
-                brokerageActions.setAddBankStep({
-                  addBankStep: AddBankStepType.ADD_BANK
-                })
-                brokerageActions.setDWStep({
-                  dwStep: BankDWStepType.ENTER_AMOUNT
-                })
-              } else {
-                brokerageActions.setDWStep({
-                  dwStep: BankDWStepType.ENTER_AMOUNT
-                })
-              }
+
+              // if (addNew) {
+              brokerageActions.showModal({
+                modalType:
+                  fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+                origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT,
+                returnToDepMethods: true
+              })
+              brokerageActions.setAddBankStep({
+                addBankStep: AddBankStepType.ADD_BANK
+              })
+              brokerageActions.setDWStep({
+                dwStep: BankDWStepType.ENTER_AMOUNT
+              })
+              // } else {
+              //   brokerageActions.setDWStep({
+              //     dwStep: BankDWStepType.ENTER_AMOUNT
+              //   })
+              // }
             }}
             value={bankTransfer}
           />
