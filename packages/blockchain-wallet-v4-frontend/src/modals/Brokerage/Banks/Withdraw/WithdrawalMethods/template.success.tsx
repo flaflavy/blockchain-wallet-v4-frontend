@@ -154,7 +154,6 @@ const Success = ({
 
         {bankWire && (
           <BankWire
-            icon={getIcon(bankWire)}
             onClick={() => {
               buySellActions.showModal({ origin: 'WithdrawModal' })
               if (userData.tiers.current === 2) {

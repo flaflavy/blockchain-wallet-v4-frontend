@@ -377,7 +377,6 @@ const Methods = (props: Props) => {
             <>
               <BankWire
                 {...bankAccount}
-                icon={getIcon(bankAccount.value)}
                 onClick={() => handlePaymentMethodSelect({ method: bankAccount.value })}
               />
             </>

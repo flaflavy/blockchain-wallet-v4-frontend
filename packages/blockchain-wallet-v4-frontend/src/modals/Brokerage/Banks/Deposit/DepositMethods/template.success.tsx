@@ -139,13 +139,14 @@ const Success = ({ addNew, brokerageActions, close, fiatCurrency, paymentMethods
         )}
         {bankWire && (
           <BankWire
-            icon={getIcon(bankWire)}
             onClick={() => {
               brokerageActions.setDWStep({
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS
               })
             }}
-            text={getType(bankWire)}
+            text={
+              <FormattedMessage id='modals.simplebuy.banktransfer' defaultMessage='Bank Transfer' />
+            }
             value={bankWire}
           />
         )}
